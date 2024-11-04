@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="Viewpoint" content="width=scale-width, initial-scale=1.0">
-        <title>My shopping list</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="index.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="box">
-                <h2>My shopping list</h2>
-                <form id="shopping">
-                    <mark>mark all</mark>
-                    <input id="writelist" type="text" placeholder="write shopping item ..."required>
-                    <button>Add Item</button>
-                </form>
-            </div>
-            <ol>
-                <li></li>
-            </ol>
-        </div>
-        </div>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Shopping List</h1>
+        <input type="text" placeholder="Add a new item" id="itemInput">
+        <button class="add">Add</button>
+        <button class="clear">Clear List</button>
+        <ul id="itemList"></ul>
+    </div>
+
+    
+    <script src="./index.js"></script>
+</body>
 </html>

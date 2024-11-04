@@ -1,27 +1,69 @@
 const list = document.querySelector('ul');
 const input = document.querySelector('input');
-const button = querySelector('button');
+const addButton = document.querySelector('button.add');
+const clearButton = document.querySelector('button.clear');
 
-button.onClick = function() {
-    let newItem = input.value;
-    input.value = '';
+// Load existing items from local storage
+let items = JSON.parse(localStorage.getItem('shoppingList')) || [];
 
-    let itemList = document.createElement('li');
-    let itemText = document.createElement('span');
-    let itemBtn = document.createElement('button')
+// Function to render the list
+function renderList() {
+    list.innerHTML = ''; // Clear the existing list
+    items.forEach(item => {
+        const itemList = document.createElement('li');
+        const itemText = document.createElement('span');
+        const itemBtn = document.createElement('button');
 
-    itemList.appendChild(itemText);
-    itemText.textContent = newItem;
+        itemText.textContent = item.text;
+        if (item.purchased) {
+            itemList.classList.add('purchased');
+        }
 
-    itemList.appendChild(itemBtn);
-    itemBtn.textContent = 'Delete';
-    
-    list.appendChild(itemList);
+        itemList.appendChild(itemText);
+        itemBtn.textContent = 'Delete';
+        itemList.appendChild(itemBtn);
 
-    itemBtn.onclick = function () {
-        list.removeChild(itemList);
-    }
+        // Mark as purchased
+        itemList.addEventListener('click', () => {
+            item.purchased = !item.purchased;
+            renderList();
+        });
 
-    input.focus();
+        // Delete item
+        itemBtn.onclick = (event) => {
+            event.stopPropagation(); // Prevent triggering the list item click
+            items = items.filter(i => i !== item);
+            saveItems();
+            renderList();
+        };
 
+        list.appendChild(itemList);
+    });
 }
+
+// Save items to local storage
+function saveItems() {
+    localStorage.setItem('shoppingList', JSON.stringify(items));
+}
+
+// Add new item
+addButton.onclick = function() {
+    const newItemText = input.value.trim();
+    if (newItemText) {
+        items.push({ text: newItemText, purchased: false });
+        saveItems();
+        renderList();
+        input.value = ''; // Clear the input field
+    }
+    input.focus();
+};
+
+// Clear the entire list
+clearButton.onclick = function() {
+    items = [];
+    saveItems();
+    renderList();
+};
+
+// Initial render
+renderList();
